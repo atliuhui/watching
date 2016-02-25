@@ -1,0 +1,12 @@
+<div class="container" style="background-color: #fff;opacity: 0.95;">
+    <header></header>
+    <div class="row">
+        {{#each data}}
+        <div class="col-md-4">
+            <div style="text-align: center;height: 80px;line-height: 80px;"><h3>{{title}}</h3></div>
+            <a class="btn btn-default" style="width: 100%;" href="/group/{{_id}}">SHOW</a>
+        </div>
+        {{/each}}
+    </div>
+    <footer></footer>
+</div>

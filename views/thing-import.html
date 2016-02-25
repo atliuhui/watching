@@ -1,0 +1,41 @@
+<script type="text/javascript">
+    $(function () {
+        $('#test').on('click', function() {
+            $('#msg').html('<i class="fa fa-cog fa-spin"></i> testing...');
+            
+            $.ajax({
+                type: 'POST',
+                url: '/thing/test',
+                dataType: 'json',
+                data: {data: $('#data').val()},
+                success: function(result) {
+                    $('#msg').html(result.msg);
+                }
+            });
+        });
+    });
+
+</script>
+<div class="container" style="opacity: 0.95;">
+    <header></header>
+    <form action="/thing/import" method="POST" style="margin-bottom: 20px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="content">Things JSON</label>
+                    <textarea class="form-control" name="data" id="data" value="" rows="20" placeholder="Content"></textarea>
+                    <p class="help-block" id="msg">JSON</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <a class="btn btn-warning" id="test" href="#" style="width: 100%;">TEST</a>
+            </div>
+            <div class="col-md-6">
+                <input class="btn btn-primary" type="submit" style="width: 100%;" value="Import" />
+            </div>
+        </div>
+    </form>
+    <footer></footer>
+</div>

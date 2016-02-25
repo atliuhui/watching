@@ -1,0 +1,80 @@
+<script type="text/javascript" src="/lib/underscore/underscore-min.js"></script>
+<script type="text/javascript" src="/lib/crossfilter/crossfilter.min.js"></script>
+<script type="text/javascript" src="/lib/d3/d3.min.js"></script>
+<script type="text/javascript" src="/lib/highcharts/highcharts.js"></script>
+<script type="text/javascript" src="/js/highcharts.option.js"></script>
+<script type="text/javascript">
+$(function(){
+    var gid = '{{data.group.id}}';
+    var option = $.extend(true, defaultOption);
+    
+    $.ajax({
+        type: 'GET',
+        url: '/group/{id}/indexvalue'.replace('{id}', gid),
+        dataType: 'json',
+        success: function (data) {
+            var dataset = crossfilter(data.indexvalue);
+            var dimension = {}, 
+                group = {};
+            dimension.source = dataset.dimension(function(d) { return d.source; });
+            group.source = dimension.source.group();
+            
+            option.series = _.map(group.source.top(Infinity), function (group, index) {
+                return {
+                    animation: true,
+                    name: group.key,
+                    color: option.colors[index],
+                    marker: { lineColor: option.colors[index] },
+                    // zIndex: source.datas.length - index,
+                    data: _.map(dimension.source.filter(group.key).top(Infinity), function(item, index) {
+                        return [(new Date(item.datetime)).getTime(), parseFloat(item.value)];
+                    })
+                };
+            });
+            
+            $('#chart').highcharts(option);
+        }
+    });
+});
+
+</script>
+<div class="container" style="opacity: 0.95;">
+    <header></header>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="container" style="background-color: #fff;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>{{data.group.title}}</h1>
+                    </div>
+                    {{#each data.indexvalue}}
+                    {{#if source}}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="property">
+                                <div class="icon">{{{icon category source}}}</div>
+                                <div class="text" style="text-transform: uppercase;">{{source}}</div>
+                            </div>
+                            <div class="property">
+                                <div class="icon"><i class="fa fa-cny"></i></div>
+                                <div class="text">{{value}}</div>
+                            </div>
+                            <div class="property">
+                                <div class="icon"><i class="fa fa-calendar"></i></div>
+                                <div class="text">{{format datetime "MMMM DD"}}&nbsp;|&nbsp;{{format datetime "dddd"}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{/each}}
+                    <div class="col-md-12">
+                        <div class="chart">
+                            <div id="chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer></footer>
+</div>
