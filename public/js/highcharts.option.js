@@ -1,3 +1,5 @@
+/* global Highcharts */
+
 window.defaultOption = {
     title: { text: '' },
     credits: { enabled: false },
@@ -39,7 +41,7 @@ window.defaultOption = {
         gridLineWidth: 1,
         min: 0,
         plotLines: [],
-        labels : { enabled: true }
+        labels: { enabled: true }
     },
     plotOptions: {
         line: {
@@ -48,5 +50,16 @@ window.defaultOption = {
             lineWidth: 1,
             marker: { enabled: false }
         }
+    }
+};
+
+window.getValue = function (index) {
+    switch (index.category) {
+        case 'price':
+            return parseFloat(index.value);
+        case 'weather':
+            return parseInt(index.value.temperature);
+        default:
+            return 0;
     }
 };

@@ -2,6 +2,7 @@ var _ = require('underscore')._;
 var async = require('async');
 
 var logger = require('../helpers/logging').getLogger('thing');
+var collector = require('../helpers/collecting').getCollector(logger);
 
 var moment = require('moment');
 var stopwatch = require('../helpers/stopwatch').stopwatch;
@@ -21,8 +22,7 @@ var DICT_CODE = require('../helpers/global').DICT_CODE;
 module.exports.index = function (callback, params) {
     Group.findAll(function (error, results) {
         if (error) {
-            // logger.error('[CODE]310: ', error);
-            callback(new Error('310'));
+            callback(collector.error(error));
         } else {
             callback(null, results);
         }
@@ -33,7 +33,7 @@ module.exports.get = function (callback, params) {
         group: function (next, context) {
             Group.findByG(params.g, function (error, results) {
                 if (error) {
-                    next(new Error('312'));
+                    next(collector.error(error));
                 } else {
                     next(null, results[0]);
                 }
@@ -43,7 +43,7 @@ module.exports.get = function (callback, params) {
             async.map(context.group.indexs, function (item, subnext) {
                 IndexValue.findNewestByI(item, function (error, results) {
                     if (error) {
-                        subnext(new Error('313'));
+                        subnext(collector.error(error));
                     } else if (results.length !== 1) {
                         subnext(null, null);
                     } else {
@@ -52,7 +52,7 @@ module.exports.get = function (callback, params) {
                 });
             }, function (error, results) {
                 if (error) {
-                    next(new Error('314'));
+                    next(collector.error(error));
                 } else {
                     next(null, results);
                 }
@@ -60,8 +60,7 @@ module.exports.get = function (callback, params) {
         }]
     }, function (error, results) {
         if (error) {
-            // logger.error('[CODE]315: ', error);
-            callback(new Error('315'));
+            callback(collector.error(error));
         } else {
             callback(null, results);
         }
@@ -79,7 +78,7 @@ module.exports.getIndexValue = function (callback, params) {
         group: function (next, context) {
             Group.findByG(params.g, function (error, results) {
                 if (error) {
-                    next(new Error('312'));
+                    next(collector.error(error));
                 } else {
                     next(null, results[0]);
                 }
@@ -88,7 +87,7 @@ module.exports.getIndexValue = function (callback, params) {
         // index: ['group', function (next, context) {
         //     Index.findByIs(context.group.indexs, function (error, results) {
         //         if (error) {
-        //             next(new Error('316'));
+        //             next(collector.error(error));
         //         } else {
         //             next(null, results);
         //         }
@@ -97,7 +96,7 @@ module.exports.getIndexValue = function (callback, params) {
         indexvalue: ['group', function (next, context) {
             IndexValue.findByIsAndTimerange(context.group.indexs, beginTime, endTime, function (error, results) {
                 if (error) {
-                    next(new Error('316'));
+                    next(collector.error(error));
                 } else {
                     next(null, results);
                 }
@@ -105,12 +104,8 @@ module.exports.getIndexValue = function (callback, params) {
         }]
     }, function (error, results) {
         if (error) {
-            // logger.error('[CODE]311: ', error);
-            callback(new Error('319'));
+            callback(collector.error(error));
         } else {
-            // stopwatch.stop();
-            // results.elapsed = stopwatch.elapsedTicks;
-            
             callback(null, results);
         }
     });

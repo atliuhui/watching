@@ -31,7 +31,7 @@ router.get('/:id', function (req, res, next) {
                 data: results
             });
         }
-    }, { g: req.param('id') });
+    }, { g: req.params.id });
 });
 
 router.get('/:id/indexvalue', function (req, res, next) {
@@ -45,7 +45,7 @@ router.get('/:id/indexvalue', function (req, res, next) {
                 }
             });
         }
-    }, { g: req.param('id') });
+    }, { g: req.params.id });
 });
 
 module.exports = router;

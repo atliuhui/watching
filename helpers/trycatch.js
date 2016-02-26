@@ -1,8 +1,3 @@
-
-
-
-
-
 module.exports.trycatch = function(process, success, exception) {
     var sign;
     try {

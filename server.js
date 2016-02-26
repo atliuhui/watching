@@ -18,9 +18,11 @@ var hbs = expresshandlebars.create({
     helpers: {
         json: helperHandlebars.json,
         format: helperHandlebars.format,
-        icon: helperHandlebars.icon
+        icon: helperHandlebars.icon,
+        rendercard: helperHandlebars.rendercard
     }
 });
+// hbs.registerPartials(__dirname + '/views/partials');
 
 server.engine('html', hbs.engine);
 server.set('view engine', 'html');

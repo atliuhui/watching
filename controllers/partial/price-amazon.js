@@ -1,7 +1,7 @@
 var util = require('util');
 var request = require('request');
 var cheerio = require('cheerio');
-var iconv = require('iconv-lite');
+// var iconv = require('iconv-lite');
 
 var logger = require('../../helpers/logging').getLogger('price-amazon');
 
@@ -12,7 +12,7 @@ module.exports.get = function (callback, params) {
         method: 'GET',
         // encoding: null,
         time: true,
-        timeout: 1000 * 10,
+        timeout: 1000 * 5,
         followRedirect: true,
         maxRedirects: 10
     }, function (error, response, body) {

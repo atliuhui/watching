@@ -80,7 +80,7 @@ router.post('/test', function (req, res, next) {
 //                 data: results
 //             });
 //         }
-//     }, { pid: req.param('code') });
+//     }, { pid: req.params('code') });
 // });
 // router.get('/:code/index/:id', function (req, res, next) {
 //     thing.getPrice(function (error, results) {
@@ -94,7 +94,7 @@ router.post('/test', function (req, res, next) {
 //                 }
 //             });
 //         }
-//     }, { pid: req.param('code') });
+//     }, { pid: req.params('code') });
 // });
 
 module.exports = router;

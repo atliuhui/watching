@@ -1,18 +1,22 @@
 module.exports.DICT_CATEGORY = {
-	price: 'price'
+	price: 'price',
+    weather: 'weather'
 };
 module.exports.ENUM_CATEGORY = [
-	module.exports.DICT_CATEGORY.price
+	module.exports.DICT_CATEGORY.price,
+    module.exports.DICT_CATEGORY.weather
 ];
 module.exports.DICT_SOURCE = {
 	jd: 'jd',
 	tmall: 'tmall',
-	amazon: 'amazon'
+	amazon: 'amazon',
+    chinaweather: 'cw'
 };
 module.exports.ENUM_SOURCE = [
 	module.exports.DICT_SOURCE.jd,
 	module.exports.DICT_SOURCE.tmall,
-	module.exports.DICT_SOURCE.amazon
+	module.exports.DICT_SOURCE.amazon,
+	module.exports.DICT_SOURCE.chinaweather
 ];
 
 module.exports.DB_URI = 'mongodb://localhost/watching';

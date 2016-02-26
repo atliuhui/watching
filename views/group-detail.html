@@ -26,8 +26,10 @@ $(function(){
                     color: option.colors[index],
                     marker: { lineColor: option.colors[index] },
                     // zIndex: source.datas.length - index,
-                    data: _.map(dimension.source.filter(group.key).top(Infinity), function(item, index) {
-                        return [(new Date(item.datetime)).getTime(), parseFloat(item.value)];
+                    data: _.map(_.sortBy(dimension.source.filter(group.key).top(Infinity), function(item, index) {
+                        return item.datetime;
+                    }), function(item, index) {
+                        return [(new Date(item.datetime)).getTime(), getValue(item)];
                     })
                 };
             });
@@ -48,24 +50,7 @@ $(function(){
                         <h1>{{data.group.title}}</h1>
                     </div>
                     {{#each data.indexvalue}}
-                    {{#if source}}
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="property">
-                                <div class="icon">{{{icon category source}}}</div>
-                                <div class="text" style="text-transform: uppercase;">{{source}}</div>
-                            </div>
-                            <div class="property">
-                                <div class="icon"><i class="fa fa-cny"></i></div>
-                                <div class="text">{{value}}</div>
-                            </div>
-                            <div class="property">
-                                <div class="icon"><i class="fa fa-calendar"></i></div>
-                                <div class="text">{{format datetime "MMMM DD"}}&nbsp;|&nbsp;{{format datetime "dddd"}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    {{/if}}
+                        {{{rendercard this}}}
                     {{/each}}
                     <div class="col-md-12">
                         <div class="chart">

@@ -1,7 +1,8 @@
 var util = require('util');
 var _ = require('underscore')._;
+
 var request = require('request');
-var cheerio = require('cheerio');
+// var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 var retry = require('retry');
 
@@ -20,7 +21,7 @@ module.exports.get = function (callback, params) {
             method: 'GET',
             encoding: null,
             time: true,
-            timeout: 10000,
+            timeout: 1000 * 5,
             followRedirect: true,
             maxRedirects: 10
         }, function (error, response, body) {
@@ -29,7 +30,6 @@ module.exports.get = function (callback, params) {
                 return;
             }
             if (error) {
-                // callback(new Error(error));
                 callback(operation.mainError());
             } else if (response.statusCode != 200) {
                 callback(new Error(util.format('[price-tmall]response.statusCode: %d', response.statusCode)));
@@ -54,14 +54,7 @@ module.exports.get = function (callback, params) {
                         elapsed: response.elapsedTime
                     });
                 }, function(error2) {
-                    logger.error('get tmall price, %s', error2);
                     callback(error2);
-                    // if(operation.retry(error2)) {
-                    //     logger.debug('get tmall price retry, %j', params);
-                    //     return;
-                    // } else {
-                    //     callback(operation.mainError());
-                    // }
                 });
             }
         });

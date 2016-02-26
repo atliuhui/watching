@@ -21,7 +21,7 @@ ThingSchema.static('findByT', function (tid, callback) {
 module.exports.Thing = mongoose.model('Thing', ThingSchema);
 
 var IndexSchema = new mongoose.Schema({
-    tid: { type: mongoose.Schema.Types.ObjectId, required: true },//, ref: 'product'
+    tid: { type: mongoose.Schema.Types.ObjectId, required: true },//, ref: 'thing'
     category: { type: String, required: true, enum: ENUM_CATEGORY },
     source: { type: String, required: true, enum: ENUM_SOURCE },
     sourcekey: { type: Object, required: true, default: {} },
@@ -41,7 +41,7 @@ IndexSchema.static('findByIs', function (iids, callback) {
 module.exports.Index = mongoose.model('Index', IndexSchema);
 
 var IndexValueSchema = new mongoose.Schema({
-    iid: { type: mongoose.Schema.Types.ObjectId, required: true },//, ref: 'product'
+    iid: { type: mongoose.Schema.Types.ObjectId, required: true },//, ref: 'index'
     datetime: { type: Date, required: true },
     category: { type: String, required: true, enum: ENUM_CATEGORY },
     source: { type: String, required: true, enum: ENUM_SOURCE },
